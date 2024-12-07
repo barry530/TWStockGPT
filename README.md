@@ -1,0 +1,2 @@
+# TWStockGPT
+To imitate FirstTradeGPT
