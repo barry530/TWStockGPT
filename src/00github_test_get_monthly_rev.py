@@ -27,7 +27,7 @@ def crawl_and_process_month_revenue(year: int, month: int):
         if not html_content:
             continue
         df = pd.read_html(StringIO(html_content))
-        df = pd.concat([d for d in df if 'levels' in dir(df.columns)])
+        df = pd.concat([d for d in df if 'levels' in dir(d.columns)])
         df.columns = df.columns.get_level_values(1)
         data.append(df)
     data = pd.concat(data)
