@@ -5,6 +5,8 @@ from datetime import datetime
 import pandas as pd
 import requests
 
+cwd = os.getcwd()
+print(cwd)
 MONTH_REV_CSV_PATH = Path('./data/monthly_rev.csv')
 
 
