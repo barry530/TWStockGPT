@@ -19,7 +19,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install Python Dependencies
-        run: pip install pandas requests
+        run: pip install pandas requests lxml
       - name: Run the Crawler Script
         run: python ./src/00github_test_get_monthly_rev.py
       - name: Commit Data Back to Github Repo
