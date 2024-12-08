@@ -51,7 +51,7 @@ def crawl_and_process_month_revenue(year: int, month: int):
         pd.to_datetime(data['年度'].astype(str) + data['月份'].astype(str), format='%Y%m')
     )
     data.loc[:]['備註'] = data['備註'].replace('-', pd.NA)
-    peint(data.shape)
+    print(data.shape)
 
     ##### Append to the existing file
     data.to_csv(MONTH_REV_CSV_PATH, mode='a', index=False, header=False)
