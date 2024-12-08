@@ -1,0 +1,33 @@
+name: Monthly Revenue Crawler Test
+run-name: Crawler Demo Action
+
+# trigger time
+on:
+  schedule: 
+    - cron: "0 16 10 * *"  # UTC -> At 00:00 on the 11th day of every month
+  workflow_dispatch:  # allow manual action
+
+# Define the action
+jobs:
+  monthly-revenue-crawler:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Python Dependencies
+        run: pip install pandas requests
+      - name: Run the Crawler Script
+        run: python ./src/00github_test_get_monthly_rev.py
+      - name: Commit Data Back to Github Repo
+        run: |
+          git config --global user.name "monthly-revenue-crawler"
+          git config --global user.email "monthly-revenue-crawler@gmail.com"
+          git add . && git commit -m "monthly rev crawler test"
+          git push origin main
+      - name: End
+        run: echo 'Done!'
+  
