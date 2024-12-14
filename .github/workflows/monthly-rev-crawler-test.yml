@@ -21,7 +21,7 @@ jobs:
       - name: Install Python Dependencies
         run: pip install pandas requests lxml
       - name: Run the Crawler Script
-        run: python ./src/00github_test_get_monthly_rev.py
+        run: python ./src/financial_report_crawl.py
       - name: Commit Data Back to Github Repo
         run: |
           git config --global user.name "monthly-revenue-crawler"
