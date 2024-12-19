@@ -67,7 +67,7 @@ def crawl_month_revenue(year: int, month: int):
     # will delete after processing and appending
     save_path = CSV_SAVE_PATH / 'temp' / f'{year}_{str(month).zfill(2)}_monthly_rev.csv'
     data.to_csv(save_path, index=False)
-    upload_to_google_drive(save_path, MONTH_REV_FOLDER)
+    # upload_to_google_drive(save_path, MONTH_REV_FOLDER)
 
 def crawl_seasonal_report(year: int, season: int, market_type, report_type):
     """
@@ -109,7 +109,7 @@ def crawl_seasonal_report(year: int, season: int, market_type, report_type):
     def save_file_and_upload_to_google_drive(dataframe: pd.DataFrame, industry_name: str):
         save_path = CSV_SAVE_PATH / 'temp' / f"{year}_Q{season}_{market_type}_{industry_name}_{report_type}.csv"
         dataframe.to_csv(save_path, index=False)
-        upload_to_google_drive(save_path, google_drive_folder)
+        # upload_to_google_drive(save_path, google_drive_folder)
 
     if market_type == '上市':
         for ind, data in enumerate(dfs):
