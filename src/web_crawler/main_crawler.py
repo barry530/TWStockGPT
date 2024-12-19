@@ -9,6 +9,7 @@ import pandas as pd
 
 # TODO: 加入移除temp檔案的code或command
 # TODO: 有些季報表缺Q3的 要補
+# TODO: GitHub Actions Artifacts
 
 CSV_SAVE_PATH = Path('./data')  # Github path
 MONTH_REV_CSV_PATH = CSV_SAVE_PATH / 'monthly_rev.csv'
