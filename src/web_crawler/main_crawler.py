@@ -8,8 +8,6 @@ from process_balance_sheet import process_balance_sheet
 from datetime import datetime
 import pandas as pd
 
-# TODO: 加入移除temp檔案的code或command
-# TODO: 有些季報表缺Q3的 要補
 # TODO: GitHub Actions Artifacts
 
 CSV_SAVE_PATH = Path('./data')  # Github path
@@ -32,16 +30,18 @@ if __name__ == '__main__':
         crawl_month_revenue(YEAR - 1, 12)
         df_monthly_rev = process_monthly_revenue(YEAR - 1, 12)
     else:
-        crawl_month_revenue(YEAR, MONTH)
-        df_monthly_rev = process_monthly_revenue(YEAR, MONTH)
+        crawl_month_revenue(YEAR, MONTH-1)
+        df_monthly_rev = process_monthly_revenue(YEAR, MONTH-1)
     # Append to the existing file
     df_monthly_rev.to_csv(MONTH_REV_CSV_PATH, mode='a', index=False, header=False)
     print(pd.read_csv(MONTH_REV_CSV_PATH).shape)
 
-    if MONTH in [1, 2, 3]:
-        for market_type in ['上市', '上櫃']:
-            for report_type in ['綜合損益表', '資產負債表', '現金流量表']:
+    for market_type in ['上市', '上櫃']:
+        for report_type in ['綜合損益表', '資產負債表', '現金流量表']:
+            if MONTH in [1, 2, 3]:
                 print(f"{market_type} {report_type}")
+                crawl_seasonal_report(YEAR-1, 4, market_type, report_type)
+            else:
                 crawl_seasonal_report(YEAR, SEASON, market_type, report_type)
 
     # Comprehensive Income

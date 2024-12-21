@@ -4,7 +4,7 @@ run-name: Crawler Demo Action
 # trigger time
 on:
   schedule: 
-    - cron: "0 23 15 * *"  # UTC -> At 23:00 on the 15th day of every month
+    - cron: "0 23 16 * *"  # UTC -> At 23:00 on the 16th day of every month
   workflow_dispatch:  # allow manual action
 
 # Define the action
@@ -19,14 +19,14 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install Python Dependencies
-        run: pip install pandas requests lxml
+        run: pip install pandas requests lxml google google-api-python-client
       - name: Run the Crawler Script
-        run: python ./src/financial_report_crawl.py
+        run: python ./src/web_crawler/main_crawler.py
       - name: Commit Data Back to Github Repo
         run: |
           git config --global user.name "monthly-revenue-crawler"
           git config --global user.email "monthly-revenue-crawler@gmail.com"
-          git add . && git commit -m "monthly rev crawler test"
+          git add . && git commit -m "financial report crawler"
           git push origin main
       - name: End
         run: echo 'Done!'
