@@ -156,6 +156,6 @@ def process_balance_sheet(year, season):
     data = pd.concat(dfs)
     data.insert(2, '年度', str(year))
     data.insert(3, '季度', str(season))
-    month = ((data['季度'] - 1) * 3 + 1).astype(str)
+    month = ((data['季度'].astype(int) - 1) * 3 + 1).astype(str)
     data.insert(0, 'stat_date', pd.to_datetime(data['年度'].astype(str) + month, format='%Y%m'))
     return data

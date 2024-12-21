@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 from financial_report_crawl import crawl_month_revenue, crawl_seasonal_report
 from process_monthly_revenue import process_monthly_revenue
@@ -69,3 +70,10 @@ if __name__ == '__main__':
         BALANCE_SHEET_CSV_PATH, mode='a', index=False, header=False
     )
     print(pd.read_csv(BALANCE_SHEET_CSV_PATH).shape)
+
+    # Remove files from temp
+    temp_path = Path('./data/temp')
+    files = os.listdir(temp_path)
+    for f in files:
+        rm_file_path = temp_path / f
+        os.remove(rm_file_path)
