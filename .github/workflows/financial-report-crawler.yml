@@ -22,7 +22,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install Python Dependencies
-        run: pip install pandas requests lxml google google-api-python-client
+        run: pip install pandas requests lxml google google-api-python-client html5lib
       - name: Run the Crawler Script
         run: python ./src/web_crawler/main_crawler.py
       - name: Commit Data Back to Github Repo
