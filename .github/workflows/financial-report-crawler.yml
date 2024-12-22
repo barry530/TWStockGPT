@@ -12,7 +12,7 @@ env:
 
 # Define the action
 jobs:
-  monthly-revenue-crawler:
+  financial-reports-crawler:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
