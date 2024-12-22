@@ -8,7 +8,7 @@ from process_balance_sheet import process_balance_sheet
 from datetime import datetime
 import pandas as pd
 
-# TODO: GitHub Actions Artifacts
+# TODO: 重新上傳幾份資料 調整stat_date (記到10月份)
 
 CSV_SAVE_PATH = Path('./data')  # Github path
 MONTH_REV_CSV_PATH = CSV_SAVE_PATH / 'monthly_rev.csv'
@@ -47,7 +47,7 @@ if __name__ == '__main__':
     # Comprehensive Income
     print('Append 綜合損益表')
     print(pd.read_csv(COMPREHENSIVE_INCOME_CSV_PATH).shape)
-    df_comprehensive_income = process_comprehensive_income(YEAR, SEASON)
+    df_comprehensive_income = process_comprehensive_income(YEAR, SEASON-1)
     df_comprehensive_income.to_csv(
         COMPREHENSIVE_INCOME_CSV_PATH, mode='a', index=False, header=False
     )
@@ -56,7 +56,7 @@ if __name__ == '__main__':
     # Cash Flow
     print('Append 現金流量表')
     print(pd.read_csv(CASH_FLOW_CSV_PATH).shape)
-    df_cash_flow = process_cash_flow(YEAR, SEASON)
+    df_cash_flow = process_cash_flow(YEAR, SEASON-1)
     df_cash_flow.to_csv(
         CASH_FLOW_CSV_PATH, mode='a', index=False, header=False
     )
@@ -65,7 +65,7 @@ if __name__ == '__main__':
     # Balance Sheet
     print('Append 資產負債表')
     print(pd.read_csv(BALANCE_SHEET_CSV_PATH).shape)
-    df_balance_sheet = process_balance_sheet(YEAR, SEASON)
+    df_balance_sheet = process_balance_sheet(YEAR, SEASON-1)
     df_balance_sheet.to_csv(
         BALANCE_SHEET_CSV_PATH, mode='a', index=False, header=False
     )
