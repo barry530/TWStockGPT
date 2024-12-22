@@ -42,7 +42,7 @@ if __name__ == '__main__':
                 print(f"{market_type} {report_type}")
                 crawl_seasonal_report(YEAR-1, 4, market_type, report_type)
             else:
-                crawl_seasonal_report(YEAR, SEASON, market_type, report_type)
+                crawl_seasonal_report(YEAR, SEASON-1, market_type, report_type)
 
     # Comprehensive Income
     print('Append 綜合損益表')
