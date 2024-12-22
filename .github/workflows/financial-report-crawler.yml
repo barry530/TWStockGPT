@@ -20,7 +20,7 @@ jobs:
           python-version: "3.12"
       - name: Install Python Dependencies
         run: pip install pandas requests lxml google google-api-python-client
-      - name: Create credentials.json
+      - name: Use GOOGLE_DRIVE_CREDENTIAL_API_KEY
         env:
             GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_DRIVE_CREDENTIAL_API_KEY }}
         run: echo "$GOOGLE_DRIVE_CREDENTIAL_API_KEY" > credentials.json
