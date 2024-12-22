@@ -59,6 +59,8 @@ def crawl_month_revenue(year: int, month: int):
         dfs = pd.concat([d for d in dfs if 'levels' in dir(d.columns)])
         dfs.columns = dfs.columns.get_level_values(1)
         data.append(dfs)
+    if len(data) == 0:
+        return f"No data {year}-{month}"
     data = pd.concat(data)
     # save to GitHub -> upload to Google Drive
     # will delete after processing and appending

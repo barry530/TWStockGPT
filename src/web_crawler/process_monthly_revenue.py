@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 import pandas as pd
 FILE_PATH = Path('./data/temp')
@@ -15,6 +16,8 @@ def process_monthly_revenue(year, month):
         '當月營收': '營收',
     }
     file_path = FILE_PATH / f'{year}_{str(month).zfill(2)}_monthly_rev.csv'
+    if not os.path.exists(file_path):
+        return f"No data {file_path}"
     data = pd.read_csv(file_path)
     cols = ['公司 代號', '公司名稱', '當月營收', '備註']
     data = data[cols].rename(columns=rename_dict)

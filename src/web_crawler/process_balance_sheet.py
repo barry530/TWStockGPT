@@ -131,6 +131,8 @@ def process_balance_sheet(year, season):
     4. if not, raise error
     """
     files = [f for f in os.listdir(FILE_PATH) if '資產負債表' in f]
+    if len(files) == 0:
+        return f"No data {FILE_PATH}/資產負債表"
     dfs = []
     for file in files:
         df = pd.read_csv(FILE_PATH / file)

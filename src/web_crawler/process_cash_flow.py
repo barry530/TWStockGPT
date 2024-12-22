@@ -8,6 +8,8 @@ COLS = ['股票代號', '公司名稱', '營業現金流', '投資現金流', '�
 
 def process_cash_flow(year, season):
     files = [f for f in os.listdir(FILE_PATH) if '現金流量表' in f]
+    if len(files) == 0:
+        return f"No data {FILE_PATH}/現金流量表"
     dfs = []
     for file in files:
         df = pd.read_csv(FILE_PATH / file)
