@@ -1,11 +1,14 @@
 name: Financial Report Crawler
-run-name: Crawler Demo Action
+run-name: Monthly Revenue and seasonal reports
 
 # trigger time
 on:
   schedule: 
     - cron: "0 23 16 * *"  # UTC -> At 23:00 on the 16th day of every month
   workflow_dispatch:  # allow manual action
+
+env:
+  GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_DRIVE_CREDENTIAL_API_KEY }}
 
 # Define the action
 jobs:
@@ -20,10 +23,6 @@ jobs:
           python-version: "3.12"
       - name: Install Python Dependencies
         run: pip install pandas requests lxml google google-api-python-client
-      - name: Use GOOGLE_DRIVE_CREDENTIAL_API_KEY
-        env:
-            GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_DRIVE_CREDENTIAL_API_KEY }}
-        run: echo "$GOOGLE_DRIVE_CREDENTIAL_API_KEY" > credentials.json
       - name: Run the Crawler Script
         run: python ./src/web_crawler/main_crawler.py
       - name: Commit Data Back to Github Repo
