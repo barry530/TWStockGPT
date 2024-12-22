@@ -75,5 +75,6 @@ if __name__ == '__main__':
     temp_path = Path('./data/temp')
     files = os.listdir(temp_path)
     for f in files:
-        rm_file_path = temp_path / f
-        os.remove(rm_file_path)
+        if '.csv' in f:
+            rm_file_path = temp_path / f
+            os.remove(rm_file_path)
