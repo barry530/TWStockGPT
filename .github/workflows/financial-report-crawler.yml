@@ -20,6 +20,10 @@ jobs:
           python-version: "3.12"
       - name: Install Python Dependencies
         run: pip install pandas requests lxml google google-api-python-client
+      - name: Create credentials.json
+        env:
+            GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_DRIVE_CREDENTIAL_API_KEY }}
+        run: echo "$GOOGLE_DRIVE_CREDENTIAL_API_KEY" > credentials.json
       - name: Run the Crawler Script
         run: python ./src/web_crawler/main_crawler.py
       - name: Commit Data Back to Github Repo

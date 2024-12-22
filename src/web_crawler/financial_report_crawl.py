@@ -9,9 +9,8 @@ from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 
 SCOPES = ['https://www.googleapis.com/auth/drive']
-SERVICE_ACCOUNT_FILE = './credentials/twstockgpt-ce9cb509f4fd.json'
 CREDENTIALS = service_account.Credentials.from_service_account_file(
-    SERVICE_ACCOUNT_FILE, scopes=SCOPES
+    'credentials.json', scopes=SCOPES
 )
 SERVICE = build('drive', 'v3', credentials=CREDENTIALS)
 
@@ -30,9 +29,6 @@ def upload_to_google_drive(file_path, destination):
 cwd = os.getcwd()
 print(cwd)
 
-
-SCOPES = ['https://www.googleapis.com/auth/drive']
-SERVICE_ACCOUNT_FILE = 'twstockgpt-ce9cb509f4fd.json'
 MONTH_REV_FOLDER = '1KBAR0g6z-akocDe13ZOqvYQin8jjKMXd'
 CASH_FLOW_FOLDER = '1IRcQQZCjXjx0mfqTQfEeKVeIvEgUVhMH'
 BALANCE_SHEET_FOLDER = '1amiletKSjXBruA1--aYFxXE4J8RAkHwJ'
