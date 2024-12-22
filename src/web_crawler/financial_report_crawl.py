@@ -8,7 +8,7 @@ from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 
-GOOGLE_CREDENTIALS = os.environ('GOOGLE_CREDENTIALS')
+GOOGLE_CREDENTIALS = os.environ['GOOGLE_CREDENTIALS']
 SCOPES = ['https://www.googleapis.com/auth/drive']
 CREDENTIALS = service_account.Credentials.from_service_account_info(
     GOOGLE_CREDENTIALS, scopes=SCOPES
