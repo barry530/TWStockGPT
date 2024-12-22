@@ -8,10 +8,10 @@ from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 
-GOOGLE_CREDENTIALS = os.environ['GOOGLE_CREDENTIALS']
+GOOGLE_CREDENTIALS = eval(os.environ['GOOGLE_CREDENTIALS'])
 SCOPES = ['https://www.googleapis.com/auth/drive']
 CREDENTIALS = service_account.Credentials.from_service_account_info(
-    eval(GOOGLE_CREDENTIALS), scopes=SCOPES
+    GOOGLE_CREDENTIALS, scopes=SCOPES
 )
 SERVICE = build('drive', 'v3', credentials=CREDENTIALS)
 
@@ -22,8 +22,8 @@ def upload_to_google_drive(file_path, destination):
     :param destination:
     :return:
     """
-    media = MediaFileUpload(str(file_path))  # create the file object
-    file = {'name': file_path, 'parents': [destination]}
+    media = MediaFileUpload(file_path)  # create the file object
+    file = {'name': str(file_path), 'parents': [destination]}
     file_id = SERVICE.files().create(body=file, media_body=media).execute()
     print(file_id)
 
