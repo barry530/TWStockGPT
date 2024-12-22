@@ -11,7 +11,7 @@ from googleapiclient.http import MediaFileUpload
 GOOGLE_CREDENTIALS = os.environ['GOOGLE_CREDENTIALS']
 SCOPES = ['https://www.googleapis.com/auth/drive']
 CREDENTIALS = service_account.Credentials.from_service_account_info(
-    GOOGLE_CREDENTIALS, scopes=SCOPES
+    eval(GOOGLE_CREDENTIALS), scopes=SCOPES
 )
 SERVICE = build('drive', 'v3', credentials=CREDENTIALS)
 
