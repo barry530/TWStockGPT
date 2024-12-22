@@ -75,6 +75,7 @@ def crawl_seasonal_report(year: int, season: int, market_type, report_type):
     :param report_type: 綜合損益表 / 資產負債表 / 現金流量表
     :return: previous season with selected market type and selected financial report type
     """
+    print(year, season, market_type, report_type)
     url = "https://mops.twse.com.tw/mops/web/ajax_t163sb04"  # default 綜合損益表
     google_drive_folder = COMPREHENSIVE_REPORT_FOLDER
     if report_type == '資產負債表':
@@ -101,7 +102,7 @@ def crawl_seasonal_report(year: int, season: int, market_type, report_type):
     if not html_content:
         return f"No content in {year} Q{season}"
     dfs = pd.read_html(StringIO(html_content))
-    
+
     # save to GitHub temp folder and upload to Google Drive
     def save_file_and_upload_to_google_drive(dataframe: pd.DataFrame, industry_name: str):
         save_path = CSV_SAVE_PATH / 'temp' / f"{year}_Q{season}_{market_type}_{industry_name}_{report_type}.csv"
