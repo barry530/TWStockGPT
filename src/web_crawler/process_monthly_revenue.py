@@ -11,8 +11,8 @@ def process_monthly_revenue(year, month):
     :return:
     """
     rename_dict = {
-        '公司 代號': '股票代號',
-        '公司名稱': '公司名稱',
+        '公司 代號': '證券代號',
+        '公司名稱': '證券名稱',
         '當月營收': '營收',
     }
     file_path = FILE_PATH / f'{year}_{str(month).zfill(2)}_monthly_rev.csv'

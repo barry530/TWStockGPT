@@ -3,7 +3,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 FILE_PATH = Path('./data/temp')
-COLS = ['股票代號', '公司名稱', '流動資產', '非流動資產', '資產總計', '流動負債', '非流動負債', '負債總計',
+COLS = ['證券代號', '證券名稱', '流動資產', '非流動資產', '資產總計', '流動負債', '非流動負債', '負債總計',
         '股本', '資本公積', '保留盈餘', '權益總計', '每股參考淨值']
 
 
@@ -18,7 +18,7 @@ def process_df_generic(input_df, rename_dict, additional_calculation=None):
     data = input_df.rename(columns=rename_dict).copy()
     for col in data.columns[2:]:
         data[col] = data[col].replace('--', np.nan).astype('float64').copy()
-    data['股票代號'] = data['股票代號'].astype('Int64').astype('str')
+    data['證券代號'] = data['證券代號'].astype('Int64').astype('str')
     if additional_calculation:
         additional_calculation(data)
     data = data[COLS]
@@ -28,7 +28,7 @@ def process_df_generic(input_df, rename_dict, additional_calculation=None):
 def process_otc_financial(input_df):
     print('上櫃 金融保險業')
     rename_dict = {
-        '公司 代號': '股票代號',
+        '公司 代號': '證券代號',
         '保留盈餘（或累積虧損）': '保留盈餘',
     }
     return process_df_generic(input_df, rename_dict)
@@ -37,7 +37,7 @@ def process_otc_financial(input_df):
 def process_otc_majority(input_df):
     print('上櫃 各種產業')
     rename_dict = {
-        '公司 代號': '股票代號',
+        '公司 代號': '證券代號',
     }
     return process_df_generic(input_df, rename_dict)
 
@@ -45,7 +45,7 @@ def process_otc_majority(input_df):
 def process_sii_bank(input_df):
     print('上市 銀行業')
     rename_dict = {
-        '公司 代號': '股票代號',
+        '公司 代號': '證券代號',
         '資產總額': '資產總計',
         '負債總額': '負債總計',
         '權益總額': '權益總計',
@@ -61,7 +61,7 @@ def process_sii_bank(input_df):
 def process_sii_securities(input_df):
     print('上市 證券業')
     rename_dict = {
-        '公司 代號': '股票代號',
+        '公司 代號': '證券代號',
         '保留盈餘（或累積虧損）': '保留盈餘',
     }
     return process_df_generic(input_df, rename_dict)
@@ -70,7 +70,7 @@ def process_sii_securities(input_df):
 def process_sii_majority(input_df):
     print('上市 各種產業')
     rename_dict = {
-        '公司 代號': '股票代號',
+        '公司 代號': '證券代號',
     }
     return process_df_generic(input_df, rename_dict)
 
@@ -78,7 +78,7 @@ def process_sii_majority(input_df):
 def process_sii_fin(input_df):
     print('上市 金控業')
     rename_dict = {
-        '公司 代號': '股票代號',
+        '公司 代號': '證券代號',
         '資產總額': '資產總計',
         '負債總額': '負債總計',
         '權益總額': '權益總計'
@@ -94,7 +94,7 @@ def process_sii_fin(input_df):
 def process_sii_insurance(input_df):
     print('上市 保險業')
     rename_dict = {
-        '公司 代號': '股票代號',
+        '公司 代號': '證券代號',
     }
     def calculations(data):
         data['流動資產'] = np.nan
@@ -107,7 +107,7 @@ def process_sii_insurance(input_df):
 def process_sii_others(input_df):
     print('上市 其他產業')
     rename_dict = {
-        '公司 代號': '股票代號',
+        '公司 代號': '證券代號',
         '流動資產': '流動資產',
         '非流動資產': '非流動資產',
         '資產總計': '資產總計',

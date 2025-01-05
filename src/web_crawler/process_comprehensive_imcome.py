@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 FILE_PATH = Path('./data/temp')
 
-COLS = ['股票代號', '公司名稱', '營業收入', '營業成本', '營業毛利', '營業費用',
+COLS = ['證券代號', '證券名稱', '營業收入', '營業成本', '營業毛利', '營業費用',
         '營業利益', '業外收支', '稅前淨利', '所得稅', '稅後淨利', 'EPS']
 
 
@@ -33,7 +33,7 @@ def process_df_generic(input_df, rename_dict, additional_calculation=None):
     data = input_df.rename(columns=rename_dict).copy()
     for col in data.columns[2:]:
         data[col] = data[col].replace('--', np.nan).astype('float64').copy()
-    data['股票代號'] = data['股票代號'].astype('Int64').astype('str')
+    data['證券代號'] = data['證券代號'].astype('Int64').astype('str')
     if additional_calculation:
         additional_calculation(data)
     data = data[COLS]
@@ -44,7 +44,7 @@ def process_df_generic(input_df, rename_dict, additional_calculation=None):
 def process_otc_financial(input_df):
     print('上櫃 金融保險業')
     rename_dict = {
-        '公司 代號': '股票代號',
+        '公司 代號': '證券代號',
         '收益': '營業收入',
         '支出及費用': '營業成本',
         '營業外損益': '業外收支',
@@ -63,7 +63,7 @@ def process_otc_financial(input_df):
 def process_otc_majority(input_df):
     print('上櫃 各種產業')
     rename_dict = {
-        '公司 代號': '股票代號',
+        '公司 代號': '證券代號',
         '營業毛利（毛損）淨額': '營業毛利',
         '營業利益（損失）': '營業利益',
         '營業外收入及支出': '業外收支',
@@ -78,7 +78,7 @@ def process_otc_majority(input_df):
 def process_sii_bank(input_df):
     print('上市 銀行業')
     rename_dict = {
-        '公司 代號': '股票代號',
+        '公司 代號': '證券代號',
         '呆帳費用、承諾及保證責任準備提存': '營業成本',
         '繼續營業單位稅前淨利（淨損）': '稅前淨利',
         '所得稅費用（利益）': '所得稅',
@@ -96,7 +96,7 @@ def process_sii_bank(input_df):
 def process_sii_securities(input_df):
     print('上市 證券業')
     rename_dict = {
-        '公司 代號': '股票代號',
+        '公司 代號': '證券代號',
         '收益': '營業收入',
         '支出及費用': '營業成本',
         '營業外損益': '業外收支',
@@ -114,7 +114,7 @@ def process_sii_securities(input_df):
 def process_sii_majority(input_df):
     print('上市 各種產業')
     rename_dict = {
-        '公司 代號': '股票代號',
+        '公司 代號': '證券代號',
         '營業毛利（毛損）': '營業毛利',
         '營業利益（損失）': '營業利益',
         '營業外收入及支出': '業外收支',
@@ -129,7 +129,7 @@ def process_sii_majority(input_df):
 def process_sii_fin(input_df):
     print('上市 金控業')
     rename_dict = {
-        '公司 代號': '股票代號',
+        '公司 代號': '證券代號',
         '淨收益': '營業毛利',
         '繼續營業單位稅前損益': '稅前淨利',
         '所得稅（費用）利益': '所得稅',
@@ -147,7 +147,7 @@ def process_sii_fin(input_df):
 def process_sii_insurance(input_df):
     print('上市 保險業')
     rename_dict = {
-        '公司 代號': '股票代號',
+        '公司 代號': '證券代號',
         '營業利益（損失）': '營業利益',
         '營業外收入及支出': '業外收支',
         '繼續營業單位稅前純益（純損）': '稅前淨利',
@@ -165,7 +165,7 @@ def process_sii_insurance(input_df):
 def process_sii_others(input_df):
     print('上市 其他產業')
     rename_dict = {
-        '公司 代號': '股票代號',
+        '公司 代號': '證券代號',
         '收入': '營業收入',
         '支出': '營業成本',
         '繼續營業單位稅前淨利（淨損）': '稅前淨利',

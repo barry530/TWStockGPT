@@ -3,7 +3,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 FILE_PATH = Path('./data/temp')
-COLS = ['股票代號', '公司名稱', '營業現金流', '投資現金流', '籌資現金流', '淨現金流']
+COLS = ['證券代號', '證券名稱', '營業現金流', '投資現金流', '籌資現金流', '淨現金流']
 
 
 def process_cash_flow(year, season):
@@ -16,7 +16,7 @@ def process_cash_flow(year, season):
         dfs.append(df)
     data = pd.concat(dfs)
     rename_dict = {
-        '公司 代號': '股票代號',
+        '公司 代號': '證券代號',
         '營業活動之淨現金流入（流出）': '營業現金流',
         '投資活動之淨現金流入（流出）': '投資現金流',
         '籌資活動之淨現金流入（流出）': '籌資現金流',
@@ -26,7 +26,7 @@ def process_cash_flow(year, season):
     data = data.rename(columns=rename_dict).copy()
     for col in data.columns[2:]:
         data[col] = data[col].replace('--', np.nan).astype('float64')
-    data['股票代號'] = data['股票代號'].astype('Int64').astype('str')
+    data['證券代號'] = data['證券代號'].astype('Int64').astype('str')
     data = data[COLS]
     data['自由現金流'] = data['營業現金流'] + data['投資現金流']  # 企業可自由運用之現金
     data.insert(2, '年度', str(year))
