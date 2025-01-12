@@ -1,21 +1,15 @@
 import os
 from pathlib import Path
 import pandas as pd
-FILE_PATH = Path('./data/temp')
+TEMP_PATH = Path('./data/temp')
 
 def process_monthly_revenue(year, month):
-    """
-
-    :param year:
-    :param month:
-    :return:
-    """
     rename_dict = {
         '公司 代號': '證券代號',
         '公司名稱': '證券名稱',
         '當月營收': '營收',
     }
-    file_path = FILE_PATH / f'{year}_{str(month).zfill(2)}_monthly_rev.csv'
+    file_path = TEMP_PATH / f'{year}年{str(month).zfill(2)}月營收.csv'
     if not os.path.exists(file_path):
         return f"No data {file_path}"
     data = pd.read_csv(file_path)
@@ -33,4 +27,5 @@ def process_monthly_revenue(year, month):
     )
     data.loc[:]['備註'] = data['備註'].replace('-', pd.NA)
     print(data.shape)
+    data.to_csv(file_path, index=False)
     return data

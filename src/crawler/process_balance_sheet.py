@@ -2,19 +2,12 @@ import os
 from pathlib import Path
 import numpy as np
 import pandas as pd
-FILE_PATH = Path('./data/temp')
+TEMP_PATH = Path('./data/temp')
 COLS = ['證券代號', '證券名稱', '流動資產', '非流動資產', '資產總計', '流動負債', '非流動負債', '負債總計',
         '股本', '資本公積', '保留盈餘', '權益總計', '每股參考淨值']
 
 
 def process_df_generic(input_df, rename_dict, additional_calculation=None):
-    """
-
-    :param input_df: pd.DataFrame
-    :param rename_dict: columns rename dict
-    :param additional_calculation: columns calculation
-    :return: processed dataframe
-    """
     data = input_df.rename(columns=rename_dict).copy()
     for col in data.columns[2:]:
         data[col] = data[col].replace('--', np.nan).astype('float64').copy()
@@ -35,7 +28,7 @@ def process_otc_financial(input_df):
 
 
 def process_otc_majority(input_df):
-    print('上櫃 各種產業')
+    print('上櫃 一般業')
     rename_dict = {
         '公司 代號': '證券代號',
     }
@@ -68,7 +61,7 @@ def process_sii_securities(input_df):
 
 
 def process_sii_majority(input_df):
-    print('上市 各種產業')
+    print('上市 一般業')
     rename_dict = {
         '公司 代號': '證券代號',
     }
@@ -105,7 +98,7 @@ def process_sii_insurance(input_df):
 
 
 def process_sii_others(input_df):
-    print('上市 其他產業')
+    print('上市 異業')
     rename_dict = {
         '公司 代號': '證券代號',
         '流動資產': '流動資產',
@@ -124,18 +117,13 @@ def process_sii_others(input_df):
 
 
 def process_balance_sheet(year, season):
-    """
-    1. determine which processing function to apply through file name
-    2. Directly return the function in the dict
-    3. Once we determine a function, send the df as the param and return processed df
-    4. if not, raise error
-    """
-    files = [f for f in os.listdir(FILE_PATH) if '資產負債表' in f]
+    files = [f for f in os.listdir(TEMP_PATH) if '資產負債表' in f]
     if len(files) == 0:
-        return f"No data {FILE_PATH}/資產負債表"
+        print(f"No data {TEMP_PATH}/資產負債表")
+        return None
     dfs = []
     for file in files:
-        df = pd.read_csv(FILE_PATH / file)
+        df = pd.read_csv(TEMP_PATH / file)
         if ("上市" in file) and ("保險業" in file):
             df = process_sii_insurance(df)
         elif "上市" in file and "證券業" in file:
@@ -144,11 +132,11 @@ def process_balance_sheet(year, season):
             df = process_sii_fin(df)
         elif "上市" in file and "銀行業" in file:
             df = process_sii_bank(df)
-        elif "上市" in file and "各種產業" in file:
+        elif "上市" in file and "一般業" in file:
             df = process_sii_majority(df)
-        elif "上市" in file and "其他產業" in file:
+        elif "上市" in file and "異業" in file:
             df = process_sii_others(df)
-        elif "上櫃" in file and "各種產業" in file:
+        elif "上櫃" in file and "一般業" in file:
             df = process_otc_majority(df)
         elif "上櫃" in file and "金融保險業" in file:
             df = process_otc_financial(df)
