@@ -1,21 +1,21 @@
-# TODO: Backfilling
 import os
 import traceback
 from pathlib import Path
-from datetime import date, timedelta
 from ast import literal_eval
+from datetime import date, timedelta
 
 import pandas as pd
+from langchain_community.vectorstores.aperturedb import ENGINE
 from sqlalchemy import create_engine
 
-from financial_crawler.fetch_financial_report import fetch_monthly_revenue, fetch_seasonal_report
-from financial_crawler.process_monthly_revenue import process_monthly_revenue
-from financial_crawler.process_comprehensive_income import process_comprehensive_income
-from financial_crawler.process_cash_flow import process_cash_flow
-from financial_crawler.process_balance_sheet import process_balance_sheet
-from financial_crawler.fetch_daily_exchange import get_daily_exchange_info, get_stock_list
-from news_crawler.get_anue_daily_news import get_anue_news
-from news_crawler.get_yahoo_daily_news import get_yahoo_news
+from src.financial_crawler.fetch_financial_report import fetch_monthly_revenue, fetch_seasonal_report
+from src.financial_crawler.process_monthly_revenue import process_monthly_revenue
+from src.financial_crawler.process_comprehensive_income import process_comprehensive_income
+from src.financial_crawler.process_cash_flow import process_cash_flow
+from src.financial_crawler.process_balance_sheet import process_balance_sheet
+from src.financial_crawler.fetch_daily_exchange import get_daily_exchange_info, get_stock_list
+from src.news_crawler.get_anue_daily_news import get_anue_news
+from src.news_crawler.get_yahoo_daily_news import get_yahoo_news
 
 TEMP_PATH = Path('./data/temp')  # GitHub path
 DB_CONNECTION = literal_eval(os.environ['DB_CONNECTION'])
@@ -24,7 +24,8 @@ PORT = DB_CONNECTION['port']
 USERNAME = DB_CONNECTION['username']
 PASSWORD = DB_CONNECTION['password']
 DATABASE = DB_CONNECTION['database']
-ENGINE = create_engine(f'mysql+pymysql://{USERNAME}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}')
+print(f'mysql+pymysql://{USERNAME}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}')
+# ENGINE = create_engine(f'mysql+pymysql://{USERNAME}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}')
 
 EXCLUDE_FIELDS = [
     '水泥工業', '食品工業', '塑膠工業', '其他業', '紡織纖維', '運動休閒', '玻璃陶瓷',
@@ -41,10 +42,29 @@ if __name__ == '__main__':
     YEAR = TODAY.year
     MONTH = TODAY.month
     DAY = TODAY.day
-    today_str = TODAY.strftime('%Y%m%d')
-    yesterday_str = YESTERDAY.strftime('%Y-%m-%d')
+    today_str = '20250117'  # TODAY.strftime('%Y%m%d')
+    yesterday_str = '2025-01-16'  # YESTERDAY.strftime('%Y-%m-%d')
 
     df_stocks = get_stock_list(today_str)
+    print("========== 股票清單 ==========", df_stocks)
+    df_anue_news = get_anue_news(yesterday_str)
+    print("========== Anue新聞 ==========", df_anue_news)
+    df_daily_exchange_info = get_daily_exchange_info(today_str)
+    print("========== 每日成交資訊 ==========", df_daily_exchange_info)
+    fetch_monthly_revenue(2024, 12)
+    df_monthly_rev = process_monthly_revenue(2024, 12)
+    print("========== 月營收 ==========", df_monthly_rev)
+    for market_type in ['上市', '上櫃']:
+        for report_type in ['綜合損益表', '資產負債表', '現金流量表']:
+            fetch_seasonal_report(2024, 3, market_type, report_type)
+    df_comprehensive_income = process_comprehensive_income(2024, 3)
+    print("========== 綜合損益表 ==========", df_comprehensive_income)
+    df_cash_flow = process_cash_flow(2024, 3)
+    print("========== 現金流量表 ==========", df_cash_flow)
+    df_balance_sheet = process_balance_sheet(2024, 3)
+    print("========== 資產負債表 ==========", df_balance_sheet)
+
+    print("EXIT", ENGINE)
 
     print("========== Anue新聞 ==========")
     df_anue_news = get_anue_news(yesterday_str)
@@ -87,6 +107,7 @@ if __name__ == '__main__':
     print("========== 每日成交資訊 ==========")
     if TODAY.weekday() < 5:  # Monday(0) to Friday(4)
         df_daily_exchange_info = get_daily_exchange_info(today_str)
+        print(df_daily_exchange_info)
         if len(df_daily_exchange_info) > 0:
             file_name = f"{today_str}成交資訊.csv"
             df_daily_exchange_info.to_sql(
@@ -97,13 +118,6 @@ if __name__ == '__main__':
             )
         else:
             print(f"{today_str}無成交資訊")
-
-        save_stock_list = (
-        df_daily_exchange_info['證券代號'].tolist() + df_daily_exchange_info['證券名稱'].tolist()
-        )
-        with open('./data/stock_list.txt', 'w+', encoding='UTF-8') as f:
-            for s in save_stock_list:
-                f.write(f'{s}\n')
         print("========== DONE ==========")
 
     print("========== 月營收 ==========")
