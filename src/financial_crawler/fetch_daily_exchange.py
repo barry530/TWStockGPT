@@ -3,7 +3,6 @@ import requests
 import pandas as pd
 
 import twstock
-twstock.__update_codes()
 
 def get_stock_list(date_str: str):
     print("========== 取得股票清單 ==========")

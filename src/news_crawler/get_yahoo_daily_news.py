@@ -6,7 +6,6 @@ from datetime import timedelta
 # from fake_useragent import UserAgent
 from financial_crawler.fetch_daily_exchange import get_stock_list
 
-twstock.__update_codes()
 
 CONFUSED_LIST = [['聯發科', '聯發'], ['華新', '華新科'], ['台塑化', '台塑'], ['南亞科', '南亞']]
 
