@@ -5,7 +5,6 @@ from ast import literal_eval
 from datetime import date, timedelta
 
 import pandas as pd
-from langchain_community.vectorstores.aperturedb import ENGINE
 from sqlalchemy import create_engine
 
 from src.financial_crawler.fetch_financial_report import fetch_monthly_revenue, fetch_seasonal_report

@@ -1,5 +1,5 @@
 name: Web Crawler
-run-name: Monthly Revenue and seasonal reports
+run-name: Daily Exchange & Monthly Rev & Seasonal reports & News Crawler
 
 # trigger time
 on:
