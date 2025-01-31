@@ -4,7 +4,7 @@ import twstock
 from bs4 import BeautifulSoup
 from datetime import timedelta
 # from fake_useragent import UserAgent
-from src.financial_crawler.fetch_daily_exchange import get_stock_list
+from financial_crawler.fetch_daily_exchange import get_stock_list
 
 twstock.__update_codes()
 

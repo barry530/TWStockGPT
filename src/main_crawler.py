@@ -7,14 +7,14 @@ from datetime import date, timedelta
 import pandas as pd
 from sqlalchemy import create_engine
 
-from src.financial_crawler.fetch_financial_report import fetch_monthly_revenue, fetch_seasonal_report
-from src.financial_crawler.process_monthly_revenue import process_monthly_revenue
-from src.financial_crawler.process_comprehensive_income import process_comprehensive_income
-from src.financial_crawler.process_cash_flow import process_cash_flow
-from src.financial_crawler.process_balance_sheet import process_balance_sheet
-from src.financial_crawler.fetch_daily_exchange import get_daily_exchange_info, get_stock_list
-from src.news_crawler.get_anue_daily_news import get_anue_news
-from src.news_crawler.get_yahoo_daily_news import get_yahoo_news
+from financial_crawler.fetch_financial_report import fetch_monthly_revenue, fetch_seasonal_report
+from financial_crawler.process_monthly_revenue import process_monthly_revenue
+from financial_crawler.process_comprehensive_income import process_comprehensive_income
+from financial_crawler.process_cash_flow import process_cash_flow
+from financial_crawler.process_balance_sheet import process_balance_sheet
+from financial_crawler.fetch_daily_exchange import get_daily_exchange_info, get_stock_list
+from news_crawler.get_anue_daily_news import get_anue_news
+from news_crawler.get_yahoo_daily_news import get_yahoo_news
 
 TEMP_PATH = Path('./data/temp')  # GitHub path
 DB_CONNECTION = literal_eval(os.environ['DB_CONNECTION'])
