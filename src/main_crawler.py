@@ -48,6 +48,8 @@ if __name__ == '__main__':
     print("========== 股票清單 ==========", df_stocks)
     df_anue_news = get_anue_news(yesterday_str)
     print("========== Anue新聞 ==========", df_anue_news)
+    df_yahoo_news = get_yahoo_news(2330, yesterday_str)
+    print("========== Yahoo新聞 ==========", df_yahoo_news)
     df_daily_exchange_info = get_daily_exchange_info(today_str)
     print("========== 每日成交資訊 ==========", df_daily_exchange_info)
     fetch_monthly_revenue(2024, 12)
