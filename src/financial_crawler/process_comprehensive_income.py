@@ -180,7 +180,7 @@ def process_sii_others(input_df):
 def process_comprehensive_income(year, season):
     files = [f for f in os.listdir(TEMP_PATH) if '綜合損益表' in f]
     if len(files) == 0:
-        return f"No data {TEMP_PATH}/綜合損益表"
+        return f"{year}-Q{season}無綜合損益表資料"
     dfs = []
     for file in files:
         df = pd.read_csv(TEMP_PATH / file)

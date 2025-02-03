@@ -1,8 +1,10 @@
 import json
 import requests
+from datetime import date, timedelta
 import pandas as pd
-
 import twstock
+from src.utils.utils import upload_data_to_mysql
+
 
 def get_stock_list(date_str: str):
     print("========== 取得股票清單 ==========")
@@ -71,13 +73,26 @@ def get_over_buy_and_sell_info(date_str: str):
         df['證券名稱'] = df['證券名稱'].str.strip()
     return df
 
-def get_daily_exchange_info(today_str):
-    df_stocks = get_stock_list(today_str)
-    df_closing_prices = get_closing_prices(today_str)
-    df_over_buy_sell = get_over_buy_and_sell_info(today_str)
+def get_daily_exchange_info(date_str: str):
+    df_stocks = get_stock_list(date_str)
+    df_closing_prices = get_closing_prices(date_str)
+    df_over_buy_sell = get_over_buy_and_sell_info(date_str)
     if (len(df_closing_prices) != 0) and (len(df_over_buy_sell) != 0):
         temp = df_stocks.merge(df_closing_prices, on=['stat_date', '證券代號', '證券名稱'], how='left')
         df_exchange_info = temp.merge(df_over_buy_sell, on=['stat_date', '證券代號', '證券名稱'], how='left')
-        df_exchange_info.to_csv(f"./data/temp/{today_str}成交資訊.csv", index=False)
+        df_exchange_info.to_csv(f"./data/temp/{date_str}成交資訊.csv", index=False)
         return df_exchange_info
-    return pd.DataFrame()
+    return f"{date_str}無成交資訊"
+
+
+if __name__ == '__main__':
+    print("========== 每日成交資訊 ==========")
+    TODAY = date.today()
+    YESTERDAY = TODAY - timedelta(days=1)
+    yesterday_str = YESTERDAY.strftime('%Y%m%d')
+    df_daily_exchange_info = get_daily_exchange_info(yesterday_str)
+    if isinstance(df_daily_exchange_info, pd.DataFrame):
+        upload_data_to_mysql(df_daily_exchange_info, 'daily_exchange_info')
+    else:
+        print(df_daily_exchange_info)
+    print("========== DONE ==========")

@@ -1,6 +1,9 @@
 import os
+from datetime import date
 from pathlib import Path
 import pandas as pd
+from src.utils.utils import upload_data_to_mysql
+from scrape_financial_report import scrape_monthly_revenue
 pd.set_option('future.no_silent_downcasting', True)
 TEMP_PATH = Path('./data/temp')
 
@@ -12,7 +15,7 @@ def process_monthly_revenue(year, month):
     }
     file_path = TEMP_PATH / f'{year}{str(month).zfill(2)}月營收.csv'
     if not os.path.exists(file_path):
-        return f"No data {file_path}"
+        return f"{year}-{month} 月營收無資料"
     data = pd.read_csv(file_path)
     cols = ['公司 代號', '公司名稱', '當月營收', '備註']
     data = data[cols].rename(columns=rename_dict)
@@ -30,3 +33,24 @@ def process_monthly_revenue(year, month):
     print(data.shape)
     data.to_csv(file_path, index=False)
     return data
+
+
+if __name__ == '__main__':
+    # 月報：次月10日前公布
+    print("========== 月營收 ==========")
+    TODAY = date.today()
+    YEAR = TODAY.year
+    MONTH = TODAY.month
+    if MONTH == 1:
+        fetch_year = YEAR - 1
+        fetch_month = 12
+    else:
+        fetch_year = YEAR
+        fetch_month = MONTH - 1
+    scrape_monthly_revenue(fetch_year, fetch_month)
+    df_monthly_rev = process_monthly_revenue(fetch_year, fetch_month)
+    if isinstance(df_monthly_rev, pd.DataFrame):
+        upload_data_to_mysql(df_monthly_rev, 'monthly_revenue')
+    else:
+        print(df_monthly_rev)
+    print("========== DONE ==========")

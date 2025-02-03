@@ -1,16 +1,11 @@
-# built-in packages
 from io import StringIO
 from pathlib import Path
-# installed packages
 import pandas as pd
 import requests
-import twstock
 
-twstock.__update_codes()
 TEMP_PATH = Path('./data/temp')  # GitHub path
 
-
-def fetch_monthly_revenue(year: int, month: int):
+def scrape_monthly_revenue(year: int, month: int):
     print(f"獲取{year}年{month}月營收")
     year_tw = year - 1911
     data = []
@@ -26,13 +21,13 @@ def fetch_monthly_revenue(year: int, month: int):
         dfs.columns = dfs.columns.get_level_values(1)
         data.append(dfs)
     if len(data) == 0:
-        print(f"No data {year}-{month}")
+        print(f"{year}-{month} 月營收無資料")
         return None
     data = pd.concat(data)
     data.to_csv(TEMP_PATH / f'{year}{str(month).zfill(2)}月營收.csv', index=False)
     return None
 
-def fetch_seasonal_report(year: int, season: int, market_type: str, report_type: str):
+def scrape_seasonal_report(year: int, season: int, market_type: str, report_type: str):
     print(year, season, market_type, report_type)
     url = "https://mops.twse.com.tw/mops/web/ajax_t163sb04"  # default 綜合損益表
     if report_type == '資產負債表':
@@ -55,7 +50,8 @@ def fetch_seasonal_report(year: int, season: int, market_type: str, report_type:
     response.encoding = 'utf-8'
     html_content = response.text
     if not html_content:
-        return f"No content in {year} Q{season}"
+        print(f"{year} Q{season} 財報爬蟲無內容")
+        return None
     dfs = pd.read_html(StringIO(html_content))
 
     # save to GitHub temp folder and upload to Google Drive
