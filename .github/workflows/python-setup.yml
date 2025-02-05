@@ -1,9 +1,6 @@
 name: Setup Python Environment
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 jobs:
