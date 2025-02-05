@@ -1,3 +1,8 @@
+import sys
+import os
+current_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.join(current_dir, ".."))
+
 import requests
 import pandas as pd
 import twstock
@@ -5,8 +10,8 @@ from bs4 import BeautifulSoup
 from datetime import timedelta, date
 
 # from fake_useragent import UserAgent
-from src.utils.utils import upload_data_to_mysql
-from src.financial_crawler.fetch_daily_exchange import get_stock_list
+from utils.db_funcs import upload_data_to_mysql
+from financial_crawler.fetch_daily_exchange import get_stock_list
 
 
 CONFUSED_LIST = [['聯發科', '聯發'], ['華新', '華新科'], ['台塑化', '台塑'], ['南亞科', '南亞']]

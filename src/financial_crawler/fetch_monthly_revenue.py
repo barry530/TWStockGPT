@@ -1,9 +1,14 @@
+import sys
 import os
+current_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.join(current_dir, ".."))
+
 from datetime import date
 from pathlib import Path
 import pandas as pd
-from src.utils.utils import upload_data_to_mysql
-from src.financial_crawler.scrape_financial_report import scrape_monthly_revenue
+from utils.db_funcs import upload_data_to_mysql
+from financial_crawler.scrape_financial_report import scrape_monthly_revenue
+
 pd.set_option('future.no_silent_downcasting', True)
 TEMP_PATH = Path('./data/temp')
 

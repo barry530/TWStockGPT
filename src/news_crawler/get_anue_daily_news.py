@@ -1,3 +1,8 @@
+import sys
+import os
+current_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.join(current_dir, ".."))
+
 import time
 import html
 import json
@@ -7,8 +12,7 @@ from bs4 import BeautifulSoup
 from urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
 from datetime import datetime, date, timedelta
-from src.utils.utils import upload_data_to_mysql
-
+from utils.db_funcs import upload_data_to_mysql
 
 retry_strategy = Retry(
     total=5,

@@ -1,9 +1,14 @@
+import sys
+import os
+current_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.join(current_dir, ".."))
+
 import json
 import requests
 from datetime import date, timedelta
 import pandas as pd
 import twstock
-from src.utils.utils import upload_data_to_mysql
+from utils.db_funcs import upload_data_to_mysql
 
 
 def get_stock_list(date_str: str):
