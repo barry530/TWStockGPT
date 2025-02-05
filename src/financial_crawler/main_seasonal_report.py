@@ -13,24 +13,24 @@ from financial_crawler.process_cash_flow import process_cash_flow
 from financial_crawler.process_balance_sheet import process_balance_sheet
 
 if __name__ == '__main__':
-    # 第一季：5月15日前
-    # 第二季：8月14日前
-    # 第三季：11月14日前
-    # 第四季：3月15日前，其餘應在4月1日前
-    # 金融股、KY股不在此限，在月底前公布即可
-    TODAY = date.today()
-    YEAR = TODAY.year
-    MONTH = TODAY.month
-
+    year = date.today().year
+    month = date.today().month
+    day = date.today().day
+    # if (month in [4, 6, 9, 12]) and (day == 1):
+        # 第一季：5月15日前 -> 1st June
+        # 第二季：8月14日前 -> 1st Sept
+        # 第三季：11月14日前 -> 1st Dec
+        # 第四季：3月15日前 -> 1st Apr
+        # 金融股、KY股不在此限，在月底前公布即可
     print('========== 財務報表爬蟲 ==========')
     for market_type in ['上市', '上櫃']:
         for report_type in ['綜合損益表', '資產負債表', '現金流量表']:
-            if MONTH <= 4:  # 拿去年第四季
+            if month <= 4:  # 拿去年第四季
                 fetch_season = 4
-                fetch_year = YEAR - 1
+                fetch_year = year - 1
             else:
-                fetch_season = MONTH // 3 - 1  # 拿上季報表
-                fetch_year = YEAR
+                fetch_season = month // 3 - 1  # 拿上季報表
+                fetch_year = year
             scrape_seasonal_report(fetch_year, fetch_season, market_type, report_type)
             print(f"{market_type} {report_type} 報表爬蟲成功")
 
@@ -61,3 +61,5 @@ if __name__ == '__main__':
             os.remove(rm_file_path)
         else:
             continue
+    # else:
+    #     sys.exit(0)

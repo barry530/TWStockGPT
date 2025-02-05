@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 import numpy as np
 import pandas as pd
-pd.set_option('future.no_silent_downcasting', True)
+# pd.set_option('future.no_silent_downcasting', True)
 TEMP_PATH = Path('./data/temp')
 
 COLS = ['證券代號', '證券名稱', '營業收入', '營業成本', '營業毛利', '營業費用',
@@ -184,6 +184,7 @@ def process_comprehensive_income(year, season):
     dfs = []
     for file in files:
         df = pd.read_csv(TEMP_PATH / file)
+        print(df.columns)
         if ("上市" in file) and ("保險業" in file):
             df = process_sii_insurance(df)
         elif "上市" in file and "證券業" in file:

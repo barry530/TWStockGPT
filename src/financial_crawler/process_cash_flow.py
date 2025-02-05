@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 import pandas as pd
-pd.set_option('future.no_silent_downcasting', True)
+# pd.set_option('future.no_silent_downcasting', True)
 TEMP_PATH = Path('./data/temp')
 COLS = ['證券代號', '證券名稱', '營業現金流', '投資現金流', '籌資現金流', '匯率變動之影響', '淨現金流']
 

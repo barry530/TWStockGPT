@@ -9,7 +9,7 @@ import pandas as pd
 from utils.db_funcs import upload_data_to_mysql
 from financial_crawler.scrape_financial_report import scrape_monthly_revenue
 
-pd.set_option('future.no_silent_downcasting', True)
+# pd.set_option('future.no_silent_downcasting', True)
 TEMP_PATH = Path('./data/temp')
 
 def process_monthly_revenue(year, month):
@@ -41,21 +41,25 @@ def process_monthly_revenue(year, month):
 
 
 if __name__ == '__main__':
-    # 月報：次月10日前公布
-    print("========== 月營收 ==========")
-    TODAY = date.today()
-    YEAR = TODAY.year
-    MONTH = TODAY.month
-    if MONTH == 1:
-        fetch_year = YEAR - 1
-        fetch_month = 12
+    year = date.today().year
+    month = date.today().month
+    day = date.today().day
+    if day == 12:
+        # 月報：次月10日前公布
+        # At 12th (UTC) of every month (in case 10th is Saturday and being postponed)
+        print("========== 月營收 ==========")
+        if month == 1:
+            fetch_year = year - 1
+            fetch_month = 12
+        else:
+            fetch_year = year
+            fetch_month = month - 1
+        scrape_monthly_revenue(fetch_year, fetch_month)
+        df_monthly_rev = process_monthly_revenue(fetch_year, fetch_month)
+        if isinstance(df_monthly_rev, pd.DataFrame):
+            upload_data_to_mysql(df_monthly_rev, 'monthly_revenue')
+        else:
+            print(df_monthly_rev)
+        print("========== DONE ==========")
     else:
-        fetch_year = YEAR
-        fetch_month = MONTH - 1
-    scrape_monthly_revenue(fetch_year, fetch_month)
-    df_monthly_rev = process_monthly_revenue(fetch_year, fetch_month)
-    if isinstance(df_monthly_rev, pd.DataFrame):
-        upload_data_to_mysql(df_monthly_rev, 'monthly_revenue')
-    else:
-        print(df_monthly_rev)
-    print("========== DONE ==========")
+        sys.exit(0)

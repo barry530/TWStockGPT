@@ -91,13 +91,17 @@ def get_daily_exchange_info(date_str: str):
 
 
 if __name__ == '__main__':
-    print("========== 每日成交資訊 ==========")
-    TODAY = date.today()
-    YESTERDAY = TODAY - timedelta(days=1)
-    yesterday_str = YESTERDAY.strftime('%Y%m%d')
-    df_daily_exchange_info = get_daily_exchange_info(yesterday_str)
-    if isinstance(df_daily_exchange_info, pd.DataFrame):
-        upload_data_to_mysql(df_daily_exchange_info, 'daily_exchange_info')
+    yesterday = date.today() - timedelta(days=1)
+    yesterday_str = yesterday.strftime('%Y%m%d')
+    weekday = date.today().weekday()
+    if weekday <= 5:
+        # Daily exchange, At 00:00 UTC every weekday
+        print("========== 每日成交資訊 ==========")
+        df_daily_exchange_info = get_daily_exchange_info(yesterday_str)
+        if isinstance(df_daily_exchange_info, pd.DataFrame):
+            upload_data_to_mysql(df_daily_exchange_info, 'daily_exchange_info')
+        else:
+            print(df_daily_exchange_info)
+        print("========== DONE ==========")
     else:
-        print(df_daily_exchange_info)
-    print("========== DONE ==========")
+        sys.exit(0)

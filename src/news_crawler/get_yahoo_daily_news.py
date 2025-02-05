@@ -78,31 +78,34 @@ EXCLUDE_FIELDS = [
 ]
 
 if __name__ == '__main__':
-    print("========== Yahoo新聞 ==========")
-    TODAY = date.today()
-    YESTERDAY = TODAY - timedelta(days=1)
-    today_str = TODAY.strftime('%Y%m%d')
-    yesterday_str = YESTERDAY.strftime('%Y-%m-%d')
+    yesterday = date.today() - timedelta(days=1)
+    yesterday_str = yesterday.strftime('%Y-%m-%d')
+    today_str = date.today().strftime('%Y%m%d')
+    weekday = date.today().weekday()
+    if weekday == 0:
+        # Every Monday
+        print("========== Yahoo新聞 ==========")
+        # get stock tick list
+        df_stocks = get_stock_list(today_str)
+        stock_list = df_stocks.loc[
+            (df_stocks['類型'] == '股票') \
+            & ~(df_stocks['產業'].isin(EXCLUDE_FIELDS)),
+        '證券代號'].tolist()
 
-    # get stock tick list
-    df_stocks = get_stock_list(today_str)
-    stock_list = df_stocks.loc[
-        (df_stocks['類型'] == '股票') \
-        & ~(df_stocks['產業'].isin(EXCLUDE_FIELDS)),
-    '證券代號'].tolist()
-
-    df_yahoo_news = []
-    for stock in stock_list:
-        try:
-            temp = get_yahoo_news(stock_list[0], yesterday_str)
-            if isinstance(temp, pd.DataFrame):
-                df_yahoo_news.append(temp)
-        except:
-            print(f"Fetch Yahoo news failed for {stock}")
-            pass
-    df_yahoo_news = pd.concat(df_yahoo_news)
-    if isinstance(df_yahoo_news, pd.DataFrame):
-        upload_data_to_mysql(df_yahoo_news, 'daily_news_crawl')
+        df_yahoo_news = []
+        for stock in stock_list:
+            try:
+                temp = get_yahoo_news(stock_list[0], yesterday_str)
+                if isinstance(temp, pd.DataFrame):
+                    df_yahoo_news.append(temp)
+            except:
+                print(f"Fetch Yahoo news failed for {stock}")
+                pass
+        df_yahoo_news = pd.concat(df_yahoo_news)
+        if isinstance(df_yahoo_news, pd.DataFrame):
+            upload_data_to_mysql(df_yahoo_news, 'daily_news_crawl')
+        else:
+            print(df_yahoo_news)
+        print("========== DONE ==========")
     else:
-        print(df_yahoo_news)
-    print("========== DONE ==========")
+        sys.exit(0)
