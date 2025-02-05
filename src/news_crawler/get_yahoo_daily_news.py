@@ -4,11 +4,9 @@ import twstock
 from bs4 import BeautifulSoup
 from datetime import timedelta, date
 
-from dateutil.utils import today
-
 # from fake_useragent import UserAgent
-from src.utils.utils import upload_data_to_mysql
-from src.financial_crawler.fetch_daily_exchange import get_stock_list
+from utils.utils import upload_data_to_mysql
+from financial_crawler.fetch_daily_exchange import get_stock_list
 
 
 CONFUSED_LIST = [['聯發科', '聯發'], ['華新', '華新科'], ['台塑化', '台塑'], ['南亞科', '南亞']]

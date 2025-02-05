@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 from urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
 from datetime import datetime, date, timedelta
-from src.utils.utils import upload_data_to_mysql
+from utils.utils import upload_data_to_mysql
 
 
 retry_strategy = Retry(

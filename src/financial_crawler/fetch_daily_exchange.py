@@ -3,7 +3,7 @@ import requests
 from datetime import date, timedelta
 import pandas as pd
 import twstock
-from src.utils.utils import upload_data_to_mysql
+from utils.utils import upload_data_to_mysql
 
 
 def get_stock_list(date_str: str):
