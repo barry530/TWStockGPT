@@ -2,8 +2,8 @@ import os
 from datetime import date
 from pathlib import Path
 import pandas as pd
-from utils.utils import upload_data_to_mysql
-from financial_crawler.scrape_financial_report import scrape_monthly_revenue
+from src.utils.utils import upload_data_to_mysql
+from src.financial_crawler.scrape_financial_report import scrape_monthly_revenue
 pd.set_option('future.no_silent_downcasting', True)
 TEMP_PATH = Path('./data/temp')
 
