@@ -7,7 +7,7 @@ on:
     - cron: "0 8 * * 1"  # Yahoo news, At 08:00 UTC every Monday
     - cron: "0 0 * * 1-5"  # Daily exchange, At 00:00 UTC every weekday
     - cron: "0 0 12 * *"  # Monthly Rev, At 12th (UTC) of every month (in case postponed)
-    - cron: '0 0 1 1,4,7,10 *'  # 每季的第一天執行上季報表爬蟲###
+    - cron: '0 0 1 1,4,7,10 *'  #  Seasonal Report, On 1st in Apr., June., Sept., and Dec. (UTC)
   workflow_dispatch:  # allow manual action
 
 env:
@@ -62,6 +62,7 @@ jobs:
           source web_scraper/bin/activate
           twstock -U
           python ./src/financial_crawler/fetch_daily_exchange.py
+
   Fetch-monthly-revenue:
     runs-on: ubuntu-latest
     if: github.event.schedule == '0 0 11 * *'  # At 11th (UTC) of every month
@@ -77,4 +78,19 @@ jobs:
         run: |
           source web_scraper/bin/activate
           python ./src/financial_crawler/fetch_monthly_revenue.py
+
   Fetch-seasonal-reports:
+    runs-on: ubuntu-latest
+    if: github.event.schedule == '0 0 1 1,4,7,10 *'  # On 1st in Apr., June., Sept., and Dec. (UTC)
+    steps:
+      - name: checkout Repository
+        uses: actions/checkout@v4
+      - name: Restore Virtual Environment
+        uses: actions/cache@v3
+        with:
+          path: web_scraper
+          key: ${{ runner.os }}-web_scraper-${{ hashFiles('requirements.txt') }}
+      - name: Run Seasonal Report Scraper
+        run: |
+          source web_scraper/bin/activate
+          python ./src/financial_crawler/main_seasonal_report.py

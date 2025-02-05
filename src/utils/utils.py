@@ -14,10 +14,11 @@ ENGINE = create_engine(f'mysql+pymysql://{USERNAME}:{PASSWORD}@{HOST}:{PORT}/{DA
 
 
 def upload_data_to_mysql(dataframe: pd.DataFrame, table_name: str):
-    dataframe.to_sql(
-        table_name,
-        con=ENGINE,
-        if_exists='append',
-        index=False
-    )
+    print(dataframe.head(3))
+    # dataframe.to_sql(
+    #     table_name,
+    #     con=ENGINE,
+    #     if_exists='append',
+    #     index=False
+    # )
     print(f"Upload {table_name} successfully!")

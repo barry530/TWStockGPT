@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  setup:
+  setup-python-env:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -22,8 +22,7 @@ jobs:
         run: |
           source web_scraper/bin/activate
           pip install pandas requests lxml html5lib pymysql sqlalchemy twstock beautifulsoup4
-      - name: Update TWStock package
-        run: twstock -U
+          twstock -U
       - name: Cache Virtual Environment
         uses: actions/cache@v3
         with:
