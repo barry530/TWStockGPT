@@ -28,6 +28,7 @@ def scrape_monthly_revenue(year: int, month: int):
     return None
 
 def scrape_seasonal_report(year: int, season: int, market_type: str, report_type: str):
+    # TODO: 重新檢查資料格式
     print(year, season, market_type, report_type)
     url = "https://mops.twse.com.tw/mops/web/ajax_t163sb04"  # default 綜合損益表
     if report_type == '資產負債表':
