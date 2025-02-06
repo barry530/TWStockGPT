@@ -70,13 +70,14 @@ def process_sii_bank(input_df):
     rename_dict = {
         '公司 代號': '證券代號',
         '公司名稱': '證券名稱',
-        '營業外收入及支出': '業外收支',
-        '稅前淨利（淨損）': '稅前淨利',
+        '呆帳費用、承諾及保證責任準備提存': '營業成本',
+        '繼續營業單位稅前淨利（淨損）': '稅前淨利',
         '所得稅費用（利益）': '所得稅',
         '繼續營業單位本期稅後淨利（淨損）': '稅後淨利',
         '基本每股盈餘（元）': 'EPS',
     }
     def calculations(data):
+        data['營業收入'] = data['利息淨收益'].fillna(0) + data['利息以外淨損益'].fillna(0)
         data['營業毛利'] = data['營業收入'].fillna(0) - data['營業成本'].fillna(0)
         data['營業利益'] = data['營業毛利'].fillna(0) - data['營業費用'].fillna(0)
         data['業外收支'] = data['稅前淨利'].fillna(0) - data['營業利益'].fillna(0)
