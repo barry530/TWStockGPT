@@ -31,6 +31,8 @@ if __name__ == '__main__':
             else:
                 fetch_season = month // 3 - 1  # 拿上季報表
                 fetch_year = year
+            fetch_year = year - 1
+            fetch_season = 3
             scrape_seasonal_report(fetch_year, fetch_season, market_type, report_type)
             print(f"{market_type} {report_type} 報表爬蟲成功")
 
