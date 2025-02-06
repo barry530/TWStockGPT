@@ -15,6 +15,7 @@ from sqlalchemy import create_engine
 
 def upload_data_to_mysql(dataframe: pd.DataFrame, table_name: str):
     print(dataframe.head(3))
+    print(dataframe.shape)
     # dataframe.to_sql(
     #     table_name,
     #     con=ENGINE,

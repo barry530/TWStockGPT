@@ -184,7 +184,6 @@ def process_comprehensive_income(year, season):
     dfs = []
     for file in files:
         df = pd.read_csv(TEMP_PATH / file)
-        print(df.columns)
         if ("上市" in file) and ("保險業" in file):
             df = process_sii_insurance(df)
         elif "上市" in file and "證券業" in file:
