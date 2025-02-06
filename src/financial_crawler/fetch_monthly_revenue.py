@@ -43,7 +43,7 @@ def process_monthly_revenue(year, month):
 if __name__ == '__main__':
     year = date.today().year
     month = date.today().month
-    day = 12  # date.today().day
+    day = date.today().day
     if day == 12:
         # 月報：次月10日前公布
         # At 12th (UTC) of every month (in case 10th is Saturday and being postponed)
@@ -54,8 +54,6 @@ if __name__ == '__main__':
         else:
             fetch_year = year
             fetch_month = month - 1
-        fetch_month = 12
-        fetch_year = year - 1
         scrape_monthly_revenue(fetch_year, fetch_month)
         df_monthly_rev = process_monthly_revenue(fetch_year, fetch_month)
         if isinstance(df_monthly_rev, pd.DataFrame):

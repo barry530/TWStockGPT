@@ -12,10 +12,9 @@ from sqlalchemy import create_engine
 # print(f'mysql+pymysql://{USERNAME}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}')
 # ENGINE = create_engine(f'mysql+pymysql://{USERNAME}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}')
 
-
+# TODO: Run the instance, create tables, trigger actions, backfilling data
 def upload_data_to_mysql(dataframe: pd.DataFrame, table_name: str):
-    print(dataframe.head(3))
-    print(dataframe.shape)
+    print(f">>>>>>>>>> Upload {dataframe.shape[0]} rows to the table {table_name} <<<<<<<<<<")
     # dataframe.to_sql(
     #     table_name,
     #     con=ENGINE,
