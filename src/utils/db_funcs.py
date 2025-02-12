@@ -10,12 +10,7 @@ PORT = DB_CONNECTION['port']
 USERNAME = DB_CONNECTION['username']
 PASSWORD = DB_CONNECTION['password']
 DATABASE = DB_CONNECTION['database']
-ENGINE = create_engine(
-    f'mysql+pymysql://{USERNAME}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}',
-    pool_recycle=3600,
-    pool_pre_ping=True,
-    echo=True
-)
+ENGINE = create_engine(f'mysql+pymysql://{USERNAME}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}')
 
 # TODO: trigger actions, backfilling data
 def upload_data_to_mysql(dataframe: pd.DataFrame, table_name: str):
