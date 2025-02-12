@@ -10,6 +10,22 @@ env:
   DB_CONNECTION: ${{ secrets.GCP_MYSQL_CONFIG }}
 
 jobs:
+  Setup-python-env:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Create Virtual Environment
+        run: python -m venv web_scraper
+      - name: Install Dependencies
+        run: |
+          source web_scraper/bin/activate
+          pip install pandas requests lxml html5lib pymysql sqlalchemy twstock beautifulsoup4
+          twstock -U
   Anue-daily-news:
     runs-on: ubuntu-latest
     steps:
@@ -30,11 +46,6 @@ jobs:
     steps:
       - name: checkout Repository
         uses: actions/checkout@v4
-      - name: Restore Virtual Environment
-        uses: actions/cache@v3
-        with:
-          path: web_scraper
-          key: ${{ runner.os }}-web_scraper-${{ hashFiles('requirements.txt') }}
       - name: Run Weekly Weekly Yahoo News Scraper
         run: |
           source web_scraper/bin/activate
