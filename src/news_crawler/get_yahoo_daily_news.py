@@ -78,6 +78,7 @@ EXCLUDE_FIELDS = [
 ]
 
 if __name__ == '__main__':
+    print("==================== 執行Yahoo新聞爬蟲 ====================")
     yesterday = date.today() - timedelta(days=1)
     yesterday_str = yesterday.strftime('%Y-%m-%d')
     today_str = date.today().strftime('%Y%m%d')
