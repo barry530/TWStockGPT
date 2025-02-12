@@ -91,6 +91,7 @@ def get_daily_exchange_info(date_str: str):
 
 
 if __name__ == '__main__':
+    print("==================== 執行每日交易資料爬蟲 ====================")
     yesterday = date.today() - timedelta(days=1)
     yesterday_str = yesterday.strftime('%Y%m%d')
     weekday = date.today().weekday()

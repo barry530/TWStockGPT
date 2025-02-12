@@ -77,6 +77,7 @@ def get_anue_news(_date: str):
 
 
 if __name__ == '__main__':
+    print("==================== 執行Anue新聞爬蟲 ====================")
     TODAY = date.today()
     YESTERDAY = TODAY - timedelta(days=1)
     yesterday_str = YESTERDAY.strftime('%Y-%m-%d')

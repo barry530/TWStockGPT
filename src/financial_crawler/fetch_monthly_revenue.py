@@ -41,6 +41,7 @@ def process_monthly_revenue(year, month):
 
 
 if __name__ == '__main__':
+    print("==================== 執行月營收爬蟲 ====================")
     year = date.today().year
     month = date.today().month
     day = date.today().day

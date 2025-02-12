@@ -12,6 +12,7 @@ from financial_crawler.process_cash_flow import process_cash_flow
 from financial_crawler.process_balance_sheet import process_balance_sheet
 
 if __name__ == '__main__':
+    print("==================== 執行季報爬蟲 ====================")
     year = date.today().year
     month = date.today().month
     day = date.today().day
